@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { serveStatic } from 'hono/bun';
 
 import { RootPage } from "./views";
-import { calculateEyeColorProbability } from "./handlers";
+import { calculateEyeColor } from "./handlers";
 
 const app = new Hono();
 
@@ -26,7 +26,7 @@ app.post("/submit-form", async (c) => {
     children: body["children"] as string,
   };
 
-  formResults = calculateEyeColorProbability(data);
+  formResults = calculateEyeColor(data);
 
   return c.redirect("/");
 });

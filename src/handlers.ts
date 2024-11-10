@@ -1,4 +1,5 @@
 import type { Result, ResultArr } from "./index";
+import { logger } from "./services";
 
 interface DataInput {
   person1: string;
@@ -6,9 +7,10 @@ interface DataInput {
   children: string;
 };
 
-export function calculateEyeColorProbability(data: DataInput): ResultArr {
+export function calculateEyeColor(data: DataInput): ResultArr {
   const childrenCount = Number(data.children);
   let result: Result | null = null;
+  logger.info({ message: "Calculating eye color probability", data });
 
   const eyeColors: Record<string, Record<string, number>> = {
     blue: { blue: 0.79, green: 0.08, brown: 0.13 },
@@ -21,6 +23,7 @@ export function calculateEyeColorProbability(data: DataInput): ResultArr {
 
   if (data.person1 === data.person2 && childrenCount === 7) {
     result = { color: "golden", probability: 0.99 };
+    logger.info({ message: "Golden eye color found" });
     return [null, result];
   }
 
@@ -52,6 +55,7 @@ export function calculateEyeColorProbability(data: DataInput): ResultArr {
 
     return [null, result];
   } catch (error) {
+    logger.error(error);
     return [error as Error, null];
   }
 }
