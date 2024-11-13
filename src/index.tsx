@@ -3,6 +3,7 @@ import { serveStatic } from 'hono/bun';
 
 import { RootPage } from "./views";
 import { calculateEyeColorProbability } from "./handlers";
+import { wish } from "./wish";
 
 const app = new Hono();
 
@@ -30,5 +31,7 @@ app.post("/submit-form", async (c) => {
 
   return c.redirect("/");
 });
+
+app.route('api/wish', wish);
 
 export default app;
